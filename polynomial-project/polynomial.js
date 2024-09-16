@@ -1,12 +1,12 @@
 const fs = require('fs');
-const { parse } = require('json5');  // Using json5 for robust JSON parsing
+const { parse } = require('json5');  
 
-// Function to decode a base-encoded value to decimal
+
 function decodeValue(base, encodedValue) {
     return parseInt(encodedValue, parseInt(base));
 }
 
-// Function to perform Lagrange interpolation
+
 function lagrangeInterpolation(xValues, yValues, x) {
     let result = 0;
     const n = xValues.length;
@@ -23,14 +23,13 @@ function lagrangeInterpolation(xValues, yValues, x) {
     return result;
 }
 
-// Function to find polynomial coefficients using Lagrange interpolation
+
 function getPolynomialCoefficients(xValues, yValues) {
-    // For simplicity, we'll use Lagrange interpolation to compute polynomial at x = 0
-    // The coefficients can be derived from the polynomial evaluated at x = 0
+  
     return yValues.map((_, idx) => lagrangeInterpolation(xValues, yValues, idx));
 }
 
-// Main function to process the JSON input and find the constant term
+
 function main(jsonInput) {
     const data = parse(jsonInput);
 
@@ -51,19 +50,19 @@ function main(jsonInput) {
         }
     }
 
-    // Assuming k = m + 1 and we have at least k roots
+    
     if (xValues.length < k) {
         throw new Error('Not enough roots to determine the polynomial coefficients');
     }
 
-    // Compute coefficients and get constant term
+    
     const coefficients = getPolynomialCoefficients(xValues, yValues);
     const constantTerm = coefficients[0];
 
     return constantTerm;
 }
 
-// Example usage
+
 const jsonInput = `{
     "keys": {
         "n": 4,
